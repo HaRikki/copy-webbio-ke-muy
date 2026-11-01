@@ -1,0 +1,361 @@
+<!DOCTYPE html>
+<html lang="km">
+<head>
+    <meta charset="UTF-8">
+<!-- This site is hosted on Netlify. Anyone can build and deploy a site
+     like this one for free: https://netlify.new/?utm_campaign=loops&utm_source=ai-legible&utm_medium=owned&utm_content=comment&utm_id=5357f0b3-b65e-46ff-9ab4-7a1adc745c89
+     Netlify hosting facts for this site: static/SSR served via Netlify Edge. -->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Kanxo | ជីវប្រវត្តិផ្ទាល់ខ្លួន</title>
+
+    <!-- ✅ ICON FAVICON ផ្ទាល់ខ្លួន KANXO SVG ១០០% ខ្ញុំគូរដោយដៃ -->
+    <link rel="icon" type="image/svg+xml" href="data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'><defs><linearGradient id='g' x1='0' y1='0' x2='1' y2='1'><stop offset='0' stop-color='%236366f1'/><stop offset='1' stop-color='%23ec4899'/></linearGradient></defs><rect width='64' height='64' rx='14' fill='url(%23g)'/><path d='M32 8 L52 22 L52 42 L32 56 L12 42 L12 22 Z' fill='white' opacity='.25'/><path d='M20 18 L20 46 L26 46 L26 32 L40 46 L46 46 L32 30 L44 18 L38 18 L26 28 L26 18 Z' fill='white'/></svg>">
+
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Khmer:wght@300;400;600;700&family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
+
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    fontFamily: { khmer: ['"Noto Sans Khmer"','sans-serif'], sans: ['Poppins','"Noto Sans Khmer"','sans-serif'] },
+                    colors: { c1:'#6366f1', c2:'#ec4899' },
+                    animation: {
+                        float: 'float 7s ease-in-out infinite',
+                        spinSlow: 'spin 12s linear infinite',
+                        spinRev: 'spinRev 18s linear infinite',
+                        fadeIn: 'fadeIn .45s ease-out both',
+                        slideR: 'slideR .45s ease-out both',
+                        slideL: 'slideL .45s ease-out both'
+                    },
+                    keyframes: {
+                        float:{'0%,100%':{transform:'translateY(0)'},'50%':{transform:'translateY(-10px)'}},
+                        spinRev:{'0%':{transform:'rotate(360deg)'},'100%':{transform:'rotate(0)'}},
+                        fadeIn:{'0%':{opacity:0},'100%':{opacity:1}},
+                        slideR:{'0%':{opacity:0,transform:'translateX(30px)'},'100%':{opacity:1,transform:'translateX(0)'}},
+                        slideL:{'0%':{opacity:0,transform:'translateX(-30px)'},'100%':{opacity:1,transform:'translateX(0)'}}
+                    }
+                }
+            }
+        }
+    </script>
+
+    <style>
+        :root {
+            --c1:#6366f1; --c2:#ec4899;
+            --bg1:#ffffff; --bg2:#f5f7ff; --bg3:#eef2ff;
+            --txt:#0f172a; --txt2:#334155; --txt3:#64748b;
+            --card:rgba(15,23,42,.04); --cardBorder:rgba(15,23,42,.08);
+        }
+        html.dark {
+            --bg1:#05070f; --bg2:#0a0f1f; --bg3:#0f172a;
+            --txt:#f8fafc; --txt2:#cbd5e1; --txt3:#94a3b8;
+            --card:rgba(255,255,255,.05); --cardBorder:rgba(255,255,255,.08);
+        }
+        * { scroll-behavior:smooth; }
+        html,body { width:100%; margin:0; padding:0; overflow-x:hidden; }
+        body {
+            font-family:Poppins,'Noto Sans Khmer',sans-serif;
+            color:var(--txt);
+            background:
+                radial-gradient(700px 400px at 0% 0%, color-mix(in srgb, var(--c1) 22%, transparent), transparent 60%),
+                radial-gradient(700px 400px at 100% 100%, color-mix(in srgb, var(--c2) 20%, transparent), transparent 60%),
+                linear-gradient(180deg, var(--bg1), var(--bg2) 60%, var(--bg3));
+            background-attachment:fixed;
+            transition:background .5s ease, color .5s ease;
+        }
+        .blob { position:fixed; border-radius:50%; filter:blur(50px); opacity:.22; pointer-events:none; z-index:0;
+               background:linear-gradient(135deg,var(--c1),var(--c2)); }
+        .glass {
+            background:var(--card);
+            border:1px solid var(--cardBorder);
+            backdrop-filter: blur(14px);
+            -webkit-backdrop-filter: blur(14px);
+            transition:all .35s ease;
+        }
+        .glass:hover { border-color:color-mix(in srgb, var(--c1) 55%, transparent); transform:translateY(-2px); }
+        .btn-grad {
+            background:linear-gradient(90deg,var(--c1),var(--c2),var(--c1));
+            background-size:220% 100%;
+            color:white;
+            transition:all .35s ease;
+        }
+        .btn-grad:hover { background-position:100% 0; transform:translateY(-2px); box-shadow:0 12px 28px -10px color-mix(in srgb, var(--c1) 60%, transparent); }
+        .page { display:none; animation:fadeIn .4s ease-out both; }
+        .page.active { display:block; }
+        .page.from-right { animation:slideR .4s ease-out both; }
+        .page.from-left  { animation:slideL .4s ease-out both; }
+        .nav-link.active { color:var(--c1); }
+        .nav-link::after {
+            content:''; display:block; height:2px; width:0; margin-top:2px;
+            background:linear-gradient(90deg,var(--c1),var(--c2));
+            transition:.3s;
+        }
+        .nav-link.active::after, .nav-link:hover::after { width:100%; }
+        .logo-ring { background:conic-gradient(from 0deg, var(--c1), var(--c2), #a855f7, var(--c1)); }
+        .progress { position:fixed; top:0; left:0; height:3px; width:100%;
+                    background:linear-gradient(90deg,var(--c1),var(--c2));
+                    z-index:9999; transform-origin:left; transform:scaleX(0); }
+        .k-text { color:var(--txt); }
+        .k-text2 { color:var(--txt2); }
+        .k-text3 { color:var(--txt3); }
+        /* ✅ EMOJI SVG ទាំងអស់ បង្កើតដោយខ្លួនឯង មិនប្រើអក្សរ emoji ទេ */
+        .e { display:inline-flex; align-items:center; justify-content:center; width:1em; height:1em; vertical-align:-.12em; }
+    </style>
+</head>
+<body>
+
+<!-- ============ EMOJI SVG ផ្ទាល់ខ្លួន ទាំងអស់ (បង្កើតដោយខ្លួនឯង) ============ -->
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+    <defs>
+        <linearGradient id="eg" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="var(--c1)"/><stop offset="1" stop-color="var(--c2)"/></linearGradient>
+        <symbol id="e-home" viewBox="0 0 24 24"><path fill="url(#eg)" d="M3 11 12 3l9 8v9a1 1 0 0 1-1 1h-5v-6h-6v6H4a1 1 0 0 1-1-1z"/></symbol>
+        <symbol id="e-user" viewBox="0 0 24 24"><circle cx="12" cy="8" r="4" fill="url(#eg)"/><path fill="url(#eg)" d="M4 21a8 8 0 0 1 16 0v1H4z"/></symbol>
+        <symbol id="e-phone" viewBox="0 0 24 24"><path fill="url(#eg)" d="M6.6 10.8a15 15 0 0 0 6.6 6.6l2.2-2.2a1 1 0 0 1 1-.25 11 11 0 0 0 3.6.57 1 1 0 0 1 1 1V20a1 1 0 0 1-1 1A17 17 0 0 1 3 4a1 1 0 0 1 1-1h3.5a1 1 0 0 1 1 .75 11 11 0 0 0 .57 3.57 1 1 0 0 1-.24 1.05z"/></symbol>
+        <symbol id="e-msg" viewBox="0 0 24 24"><path fill="url(#eg)" d="M21 12a9 9 0 1 1-3.2-6.7L21 4l-1.6 2.9A9 9 0 0 1 21 12z"/></symbol>
+        <symbol id="e-sun" viewBox="0 0 24 24"><circle cx="12" cy="12" r="4" fill="url(#eg)"/><g stroke="url(#eg)" stroke-width="2" stroke-linecap="round"><line x1="12" y1="2" x2="12" y2="4"/><line x1="12" y1="20" x2="12" y2="22"/><line x1="2" y1="12" x2="4" y2="12"/><line x1="20" y1="12" x2="22" y2="12"/><line x1="4.2" y1="4.2" x2="5.6" y2="5.6"/><line x1="18.4" y1="18.4" x2="19.8" y2="19.8"/><line x1="4.2" y1="19.8" x2="5.6" y2="18.4"/><line x1="18.4" y1="5.6" x2="19.8" y2="4.2"/></g></symbol>
+        <symbol id="e-moon" viewBox="0 0 24 24"><path fill="url(#eg)" d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8z"/></symbol>
+        <symbol id="e-heart" viewBox="0 0 24 24"><path fill="url(#eg)" d="M12 21s-7-4.5-9.3-9A5 5 0 0 1 12 6a5 5 0 0 1 9.3 6C19 16.5 12 21 12 21z"/></symbol>
+        <symbol id="e-bulb" viewBox="0 0 24 24"><path fill="url(#eg)" d="M9 18h6v1a2 2 0 0 1-2 2h-2a2 2 0 0 1-2-2zm-1-3h8a5 5 0 1 0-8 0z"/></symbol>
+        <symbol id="e-target" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9" fill="none" stroke="url(#eg)" stroke-width="2"/><circle cx="12" cy="12" r="5" fill="none" stroke="url(#eg)" stroke-width="2"/><circle cx="12" cy="12" r="2" fill="url(#eg)"/></symbol>
+        <symbol id="e-star" viewBox="0 0 24 24"><path fill="url(#eg)" d="M12 2l2.9 7.4 8 1.2-5.8 5.6 1.4 7.8L12 20.3l-6.5 3.7 1.4-7.8L1.1 10.6l8-1.2z"/></symbol>
+        <symbol id="e-tg" viewBox="0 0 24 24"><path fill="url(#eg)" d="M9.8 18.6l.3-4.2 7.7-6.9c.3-.3-.1-.5-.5-.2L7.7 13.3l-4-1.3c-.9-.3-.9-1.2.2-1.5L19.8 4.4c.7-.3 1.4.2 1.1 1.3l-2.7 12.8c-.2.9-.7 1.1-1.5.7l-3.5-2.2-2 1.9c-.2.3-.5.4-.8.4z"/></symbol>
+        <symbol id="e-chat" viewBox="0 0 24 24"><path fill="url(#eg)" d="M20 2H4a2 2 0 0 0-2 2v16l4-4h14a2 2 0 0 0 2-2V4a2 2 0 0 0-2-2z"/></symbol>
+        <symbol id="e-copy" viewBox="0 0 24 24"><rect x="9" y="9" width="13" height="13" rx="2" fill="none" stroke="url(#eg)" stroke-width="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1" fill="none" stroke="url(#eg)" stroke-width="2"/></symbol>
+        <symbol id="e-share" viewBox="0 0 24 24"><circle cx="18" cy="5" r="3" fill="url(#eg)"/><circle cx="6" cy="12" r="3" fill="url(#eg)"/><circle cx="18" cy="19" r="3" fill="url(#eg)"/><path d="M8.6 13.5l6.8 4M15.4 6.5l-6.8 4" fill="none" stroke="url(#eg)" stroke-width="2"/></symbol>
+        <symbol id="e-up" viewBox="0 0 24 24"><path fill="url(#eg)" d="M12 4 4 14h5v6h6v-6h5z"/></symbol>
+        <symbol id="e-spark" viewBox="0 0 24 24"><path fill="url(#eg)" d="M12 2l1.8 5.2L19 9l-5.2 1.8L12 16l-1.8-5.2L5 9l5.2-1.8z"/></symbol>
+        <symbol id="e-music" viewBox="0 0 24 24"><path fill="url(#eg)" d="M9 18V5l12-2v13"/><circle cx="6" cy="18" r="3" fill="url(#eg)"/><circle cx="18" cy="16" r="3" fill="url(#eg)"/></symbol>
+        <symbol id="e-game" viewBox="0 0 24 24"><rect x="2" y="7" width="20" height="11" rx="4" fill="url(#eg)"/><circle cx="8" cy="12.5" r="1.5" fill="white"/><path d="M15 11h2M16 10v2" stroke="white" stroke-width="1.5" stroke-linecap="round"/></symbol>
+        <symbol id="e-leaf" viewBox="0 0 24 24"><path fill="url(#eg)" d="M4 20c0-8 6-14 16-14 0 10-6 16-14 16-1 0-1.5 0-2-2z"/><path d="M4 20 14 10" stroke="white" stroke-width="1.2"/></symbol>
+        <symbol id="e-book" viewBox="0 0 24 24"><path fill="url(#eg)" d="M4 4h10a4 4 0 0 1 4 4v12H8a4 4 0 0 1-4-4z"/><path d="M4 16a4 4 0 0 1 4-4h10" fill="none" stroke="white" stroke-width="1.2"/></symbol>
+        <symbol id="e-code" viewBox="0 0 24 24"><path fill="url(#eg)" d="M8 6 2 12l6 6m8-12 6 6-6 6m-7-3 6-6"/></symbol>
+        <symbol id="e-quest" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9" fill="url(#eg)"/><path d="M9.5 9a2.5 2.5 0 1 1 3.5 2.3c-.8.4-1 .9-1 1.7M12 17h.01" stroke="white" stroke-width="1.6" fill="none" stroke-linecap="round"/></symbol>
+        <symbol id="e-tool" viewBox="0 0 24 24"><path fill="url(#eg)" d="M14.7 3.3a4 4 0 0 0-5.4 5.4L3 15l6 6 6.3-6.3a4 4 0 0 0 5.4-5.4l-2.5 2.5a1.7 1.7 0 0 1-2.4 0l-2.5-2.5z"/></symbol>
+        <symbol id="e-send" viewBox="0 0 24 24"><path fill="url(#eg)" d="M2 21 22 12 2 3v7l15 2-15 2z"/></symbol>
+    </defs>
+</svg>
+
+<div class="blob w-72 h-72 top-10 -left-10 animate-float"></div>
+<div class="blob w-80 h-80 bottom-10 -right-10 animate-float" style="animation-delay:-3s"></div>
+<div class="progress" id="progress"></div>
+
+<!-- ==================== HEADER ==================== -->
+<header class="fixed top-0 inset-x-0 z-50 glass">
+    <div class="max-w-5xl mx-auto px-4 h-14 flex items-center justify-between">
+        <!-- ✅ LOGO ICON ផ្ទាល់ខ្លួន KANXO ថ្មី -->
+        <a href="#" onclick="go('home');return false;" class="flex items-center gap-2">
+            <svg viewBox="0 0 64 64" class="w-8 h-8">
+                <defs><linearGradient id="lg" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="var(--c1)"/><stop offset="1" stop-color="var(--c2)"/></linearGradient></defs>
+                <rect width="64" height="64" rx="14" fill="url(#lg)"/>
+                <path d="M32 8 L52 22 L52 42 L32 56 L12 42 L12 22 Z" fill="white" opacity=".22"/>
+                <path d="M20 18 L20 46 L26 46 L26 32 L40 46 L46 46 L32 30 L44 18 L38 18 L26 28 L26 18 Z" fill="white"/>
+            </svg>
+            <span class="font-bold">Kanxo</span>
+        </a>
+
+        <div class="hidden sm:flex items-center gap-2">
+            <button data-c1="#6366f1" data-c2="#ec4899" class="theme w-5 h-5 rounded-full bg-gradient-to-br from-indigo-500 to-pink-500 ring-2 ring-offset-1 ring-indigo-400"></button>
+            <button data-c1="#10b981" data-c2="#0ea5e9" class="theme w-5 h-5 rounded-full bg-gradient-to-br from-emerald-400 to-sky-400"></button>
+            <button data-c1="#f97316" data-c2="#ec4899" class="theme w-5 h-5 rounded-full bg-gradient-to-br from-orange-400 to-pink-500"></button>
+            <button data-c1="#8b5cf6" data-c2="#06b6d4" class="theme w-5 h-5 rounded-full bg-gradient-to-br from-purple-500 to-cyan-400"></button>
+        </div>
+
+        <nav class="hidden md:flex items-center gap-6 text-sm k-text2">
+            <a class="nav-link active" data-page="home" onclick="go('home')"><svg class="e w-4 h-4 mr-1"><use href="#e-home"/></svg>ដើម</a>
+            <a class="nav-link" data-page="about" onclick="go('about')"><svg class="e w-4 h-4 mr-1"><use href="#e-user"/></svg>អំពីខ្ញុំ</a>
+            <a class="nav-link" data-page="contact" onclick="go('contact')"><svg class="e w-4 h-4 mr-1"><use href="#e-phone"/></svg>ទំនាក់ទំនង</a>
+            <a class="nav-link" data-page="message" onclick="go('message')"><svg class="e w-4 h-4 mr-1"><use href="#e-msg"/></svg>សារ</a>
+        </nav>
+
+        <!-- ✅ ប៊ូតុង DARK / LIGHT -->
+        <button id="themeBtn" onclick="toggleTheme()" class="w-9 h-9 rounded-full glass flex items-center justify-center">
+            <svg class="e w-5 h-5" id="icSun"><use href="#e-sun"/></svg>
+            <svg class="e w-5 h-5 hidden" id="icMoon"><use href="#e-moon"/></svg>
+        </button>
+    </div>
+</header>
+
+<!-- ==================== MAIN ==================== -->
+<main class="relative z-10 w-full max-w-xl mx-auto px-4 pt-20 pb-28">
+
+    <!-- ========== PAGE 1 : ដើម ========== -->
+    <section class="page active" id="page-home">
+        <div class="text-center">
+            <div class="relative w-32 h-32 sm:w-36 sm:h-36 mx-auto">
+                <span class="absolute inset-0 rounded-full logo-ring animate-spinSlow opacity-80"></span>
+                <span class="absolute inset-[6px] rounded-full logo-ring animate-spinRev opacity-50"></span>
+                <div class="absolute inset-[6px] rounded-full overflow-hidden flex items-center justify-center" style="background:var(--bg3)">
+                    <img src="https://ar-hosting.pages.dev/1782565508739.jpg" alt="Kanxo" loading="lazy"
+                         onerror="this.style.display='none';this.nextElementSibling.style.display='flex'">
+                    <svg viewBox="0 0 64 64" class="w-16 h-16 hidden"><rect width="64" height="64" rx="12" fill="url(#lg)"/><path d="M32 8 L52 22 L52 42 L32 56 L12 42 L12 22 Z" fill="white" opacity=".2"/><path d="M20 18 L20 46 L26 46 L26 32 L40 46 L46 46 L32 30 L44 18 L38 18 L26 28 L26 18 Z" fill="white"/></svg>
+                </div>
+            </div>
+            <h1 class="mt-5 text-3xl sm:text-4xl font-extrabold bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-500 bg-clip-text text-transparent">Kanxo</h1>
+            <p class="mt-1 k-text2 text-sm sm:text-base"><svg class="e w-4 h-4 mr-1"><use href="#e-spark"/></svg>មនុស្សធម្មតា · រៀនថ្មីៗរាល់ថ្ងៃ</p>
+            <p class="mt-4 k-text2 leading-7 text-sm">
+                សួស្តីខ្ញុំឈ្មោះ Kanxo ខ្ញុំមិនមែនជាអ្នកពូកែ ឬល្បីល្បាញទេ គ្រាន់តែជាមនុស្សម្នាក់ដែលចូលចិត្តស្វែងយល់អ្វីថ្មីៗ
+                ហើយចែករំលែកតែអ្វីដែលខ្ញុំបានដឹងប៉ុណ្ណោះ <svg class="e w-3.5 h-3.5"><use href="#e-heart"/></svg>
+            </p>
+            <div class="mt-6 grid grid-cols-3 gap-2">
+                <div class="glass rounded-xl py-3"><div class="text-xl sm:text-2xl font-bold">128</div><div class="text-[11px] k-text3">អ្នកតាមដាន</div></div>
+                <div class="glass rounded-xl py-3"><div class="text-xl sm:text-2xl font-bold">46</div><div class="text-[11px] k-text3">មាតិកា</div></div>
+                <div class="glass rounded-xl py-3"><div class="text-xl sm:text-2xl font-bold">8</div><div class="text-[11px] k-text3">ខែសកម្ម</div></div>
+            </div>
+            <div class="mt-7 flex flex-wrap justify-center gap-3">
+                <button onclick="go('about')" class="btn-grad px-5 py-2.5 rounded-full text-sm font-semibold">ស្វែងយល់បន្ថែម →</button>
+                <a href="https://t.me/kanxo_zin" target="_blank" class="glass px-5 py-2.5 rounded-full text-sm font-semibold"><svg class="e w-4 h-4 mr-1"><use href="#e-tg"/></svg>ចូលឆានែល</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- ========== PAGE 2 : អំពីខ្ញុំ ========== -->
+    <section class="page" id="page-about">
+        <h2 class="text-xl sm:text-2xl font-bold"><svg class="e w-6 h-6 mr-2"><use href="#e-user"/></svg>អំពីខ្ញុំ</h2>
+        <p class="k-text3 text-xs sm:text-sm mb-5">ព័ត៌មានទូទៅ អ្វីដែលខ្ញុំជា និងចូលចិត្ត</p>
+
+        <div class="glass rounded-2xl p-4 sm:p-5">
+            <h3 class="font-semibold mb-2"><svg class="e w-5 h-5 mr-2"><use href="#e-spark"/></svg>ខ្ញុំជាអ្នកណា?</h3>
+            <p class="k-text2 leading-7 text-sm">ខ្ញុំជាមនុស្សធម្មតាម្នាក់ រស់នៅកម្ពុជា ចូលចិត្តបច្ចេកវិទ្យា ការសរសេរ និងការចែករំលែកចំណេះដឹងតិចតួចដែលមាន។ ខ្ញុំនៅតែរៀននៅតែធ្វើ ហើយក៏នៅតែធ្វើខុសដែរដូចមនុស្សដទៃទៀត។</p>
+        </div>
+
+        <div class="mt-4 grid sm:grid-cols-2 gap-3">
+            <div class="glass rounded-xl p-4"><h4 class="font-semibold mb-1 text-sm"><svg class="e w-4 h-4 mr-1"><use href="#e-bulb"/></svg>ទស្សនៈជីវិត</h4><p class="text-xs sm:text-sm k-text2 italic">« ធ្វើអោយប្រសើរបន្តិចម្តងៗ ជាងចង់បានល្អឥតខ្ចោះភ្លាមៗ »</p></div>
+            <div class="glass rounded-xl p-4"><h4 class="font-semibold mb-1 text-sm"><svg class="e w-4 h-4 mr-1"><use href="#e-target"/></svg>គោលដៅ</h4><p class="text-xs sm:text-sm k-text2">រៀនបន្ត ចែករំលែកបន្ត រក្សាទំនាក់ទំនងល្អៗ</p></div>
+        </div>
+
+        <h3 class="mt-5 font-semibold text-sm"><svg class="e w-4 h-4 mr-1"><use href="#e-heart"/></svg>ចំណាប់អារម្មណ៍</h3>
+        <div class="mt-2 grid grid-cols-2 gap-2">
+            <div class="glass rounded-lg px-3 py-2 text-xs sm:text-sm"><svg class="e w-4 h-4 mr-1.5"><use href="#e-code"/></svg>សរសេរកូដ & រចនា</div>
+            <div class="glass rounded-lg px-3 py-2 text-xs sm:text-sm"><svg class="e w-4 h-4 mr-1.5"><use href="#e-book"/></svg>អាន & មើលវីដេអូ</div>
+            <div class="glass rounded-lg px-3 py-2 text-xs sm:text-sm"><svg class="e w-4 h-4 mr-1.5"><use href="#e-music"/></svg>ស្តាប់តន្ត្រី</div>
+            <div class="glass rounded-lg px-3 py-2 text-xs sm:text-sm"><svg class="e w-4 h-4 mr-1.5"><use href="#e-game"/></svg>លេងហ្គេម</div>
+            <div class="glass rounded-lg px-3 py-2 text-xs sm:text-sm"><svg class="e w-4 h-4 mr-1.5"><use href="#e-leaf"/></svg>ធម្មជាតិ</div>
+            <div class="glass rounded-lg px-3 py-2 text-xs sm:text-sm"><svg class="e w-4 h-4 mr-1.5"><use href="#e-star"/></svg>ចែករំលែកចំណេះដឹង</div>
+        </div>
+    </section>
+
+    <!-- ========== PAGE 3 : ទំនាក់ទំនង ========== -->
+    <section class="page" id="page-contact">
+        <h2 class="text-xl sm:text-2xl font-bold"><svg class="e w-6 h-6 mr-2"><use href="#e-phone"/></svg>ទំនាក់ទំនង</h2>
+        <p class="k-text3 text-xs sm:text-sm mb-5">ទាក់ទងមកខ្ញុំបានតាមបណ្តាខាងក្រោម</p>
+        <div class="space-y-3">
+            <a href="https://t.me/kanxo_zin" target="_blank" class="btn-grad flex items-center gap-3 px-4 py-3.5 rounded-2xl text-sm font-semibold">
+                <svg class="e w-5 h-5"><use href="#e-tg"/></svg><span class="flex-1 text-left">Telegram Channel</span><span>@kanxo_zin</span>
+            </a>
+            <a href="https://t.me/gito_kanxo" target="_blank" class="glass flex items-center gap-3 px-4 py-3.5 rounded-2xl text-sm font-semibold">
+                <svg class="e w-5 h-5"><use href="#e-chat"/></svg><span class="flex-1 text-left">សារផ្ទាល់</span><span class="k-text2">@gito_kanxo</span>
+            </a>
+            <a href="tel:+85510717055" class="glass flex items-center gap-3 px-4 py-3.5 rounded-2xl text-sm font-semibold">
+                <svg class="e w-5 h-5"><use href="#e-phone"/></svg><span class="flex-1 text-left">ទូរស័ព្ទ / WhatsApp</span><span class="k-text2">010 717 055</span>
+            </a>
+            <button onclick="copyPhone()" class="glass flex items-center gap-3 px-4 py-3.5 rounded-2xl text-sm font-semibold">
+                <svg class="e w-5 h-5"><use href="#e-copy"/></svg><span class="flex-1 text-left">ចម្លងលេខទូរស័ព្ទ</span><span id="cp" class="k-text2">ចុចដើម្បីចម្លង</span>
+            </button>
+            <button onclick="shareSite()" class="glass flex items-center gap-3 px-4 py-3.5 rounded-2xl text-sm font-semibold">
+                <svg class="e w-5 h-5"><use href="#e-share"/></svg><span class="flex-1 text-left">ចែករំលែកគេហទំព័រ</span><span class="k-text3">ផ្ញើទៅមិត្ត</span>
+            </button>
+        </div>
+    </section>
+
+    <!-- ========== PAGE 4 : សារ ========== -->
+    <section class="page" id="page-message">
+        <h2 class="text-xl sm:text-2xl font-bold"><svg class="e w-6 h-6 mr-2"><use href="#e-msg"/></svg>ផ្ញើសារមកខ្ញុំ</h2>
+        <p class="k-text3 text-xs sm:text-sm mb-5">សរសេរអ្វីក៏បាន ខ្ញុំអានទាំងអស់</p>
+        <form onsubmit="sendMsg(event)" class="glass rounded-2xl p-4 sm:p-5 space-y-3">
+            <input required id="name" class="w-full bg-transparent border border-[color:var(--cardBorder)] rounded-xl px-4 py-2.5 text-sm outline-none focus:border-[color:var(--c1)] k-text" placeholder="ឈ្មោះរបស់អ្នក">
+            <select id="subj" class="w-full bg-transparent border border-[color:var(--cardBorder)] rounded-xl px-4 py-2.5 text-sm outline-none focus:border-[color:var(--c1)] k-text">
+                <option value="សួរសំណួរ" class="dark:bg-slate-900 bg-white"><svg class="e w-4 h-4"><use href="#e-quest"/></svg> សួរសំណួរ</option>
+                <option value="ស្នើសុំជំនួយ" class="dark:bg-slate-900 bg-white"><svg class="e w-4 h-4"><use href="#e-tool"/></svg> ស្នើសុំជំនួយ</option>
+                <option value="ផ្តល់យោបល់" class="dark:bg-slate-900 bg-white"><svg class="e w-4 h-4"><use href="#e-bulb"/></svg> ផ្តល់យោបល់</option>
+                <option value="ផ្សេងៗ" class="dark:bg-slate-900 bg-white"><svg class="e w-4 h-4"><use href="#e-spark"/></svg> ផ្សេងៗ</option>
+            </select>
+            <textarea required id="msg" rows="4" class="w-full bg-transparent border border-[color:var(--cardBorder)] rounded-xl px-4 py-2.5 text-sm outline-none focus:border-[color:var(--c1)] resize-none k-text" placeholder="សរសេរសារ…"></textarea>
+            <button type="submit" class="btn-grad w-full py-2.5 rounded-xl text-sm font-semibold"><svg class="e w-4 h-4 mr-1"><use href="#e-send"/></svg>ផ្ញើសារទៅ Telegram →</button>
+        </form>
+    </section>
+</main>
+
+<!-- ==================== BOTTOM NAV ICON SVG ទាំងអស់ ==================== -->
+<nav class="fixed bottom-3 inset-x-0 z-50 max-w-md mx-auto px-3">
+    <div class="glass rounded-full px-1 py-1.5 grid grid-cols-4 text-center text-[10px] sm:text-xs">
+        <a class="nav-link active flex flex-col items-center py-1" data-page="home" onclick="go('home')"><svg class="e w-5 h-5"><use href="#e-home"/></svg>ដើម</a>
+        <a class="nav-link flex flex-col items-center py-1 k-text3" data-page="about" onclick="go('about')"><svg class="e w-5 h-5"><use href="#e-user"/></svg>អំពី</a>
+        <a class="nav-link flex flex-col items-center py-1 k-text3" data-page="contact" onclick="go('contact')"><svg class="e w-5 h-5"><use href="#e-phone"/></svg>ទំនាក់ទំនង</a>
+        <a class="nav-link flex flex-col items-center py-1 k-text3" data-page="message" onclick="go('message')"><svg class="e w-5 h-5"><use href="#e-msg"/></svg>សារ</a>
+    </div>
+</nav>
+
+<button id="toTop" class="fixed bottom-24 right-3 z-40 w-10 h-10 rounded-full btn-grad flex items-center justify-center opacity-0 pointer-events-none transition-all">
+    <svg class="e w-5 h-5"><use href="#e-up"/></svg>
+</button>
+
+<script>
+    // === DARK / LIGHT MODE ===
+    const root = document.documentElement;
+    const icSun = document.getElementById('icSun');
+    const icMoon = document.getElementById('icMoon');
+    const saved = localStorage.getItem('kanxo-theme');
+    if(saved==='dark'){ root.classList.add('dark'); icSun.classList.add('hidden'); icMoon.classList.remove('hidden'); }
+    function toggleTheme(){
+        root.classList.toggle('dark');
+        const isDark = root.classList.contains('dark');
+        icSun.classList.toggle('hidden', isDark);
+        icMoon.classList.toggle('hidden', !isDark);
+        localStorage.setItem('kanxo-theme', isDark?'dark':'light');
+    }
+
+    // === ប្តូរទំព័រ ===
+    let current='home'; const order=['home','about','contact','message'];
+    function go(p){
+        if(p===current) return;
+        const old=document.getElementById('page-'+current), nw=document.getElementById('page-'+p);
+        const dir = order.indexOf(p)>order.indexOf(current)?'from-right':'from-left';
+        old.classList.remove('active','from-right','from-left');
+        nw.classList.add('active',dir);
+        document.querySelectorAll('.nav-link').forEach(a=>{
+            a.classList.toggle('active',a.dataset.page===p);
+            a.classList.toggle('k-text3',a.dataset.page!==p);
+        });
+        current=p; window.scrollTo({top:0,behavior:'instant'});
+    }
+
+    // === របារអូស ===
+    const pb=document.getElementById('progress'), h=document.documentElement; let tick=false;
+    addEventListener('scroll',()=>{
+        if(!tick){ requestAnimationFrame(()=>{
+            pb.style.transform=`scaleX(${h.scrollTop/(h.scrollHeight-h.clientHeight)})`;
+            toTop.classList.toggle('opacity-100',h.scrollTop>400);
+            toTop.classList.toggle('pointer-events-auto',h.scrollTop>400);
+            tick=false;
+        }); tick=true; }
+    },{passive:true});
+    toTop.onclick=()=>scrollTo({top:0,behavior:'smooth'});
+
+    // === ប្តូរពណ៌ថេម ===
+    document.querySelectorAll('.theme').forEach(t=>{
+        t.onclick=()=>{
+            root.style.setProperty('--c1',t.dataset.c1);
+            root.style.setProperty('--c2',t.dataset.c2);
+            document.querySelectorAll('.theme').forEach(x=>x.classList.remove('ring-indigo-400','ring-emerald-400','ring-orange-400','ring-purple-400','ring-2'));
+            t.classList.add('ring-2');
+        };
+    });
+
+    function copyPhone(){ navigator.clipboard.writeText('010717055').then(()=>{
+        const x=document.getElementById('cp'); x.textContent='✓ ចម្លងរួច';
+        setTimeout(()=>x.textContent='ចុចដើម្បីចម្លង',1800);
+    });}
+    function shareSite(){
+        const d={title:'Kanxo',text:'សូមមើលគេហទំព័រ Kanxo',url:location.href};
+        navigator.share?navigator.share(d):navigator.clipboard.writeText(location.href).then(()=>alert('✅ ចម្លងតំណរួចរាល់'));
+    }
+    function sendMsg(e){
+        e.preventDefault();
+        open(`https://t.me/gito_kanxo?text=${encodeURIComponent(`📩 សារថ្មី\n👤 ${name.value}\n📌 ${subj.value}\n💬 ${msg.value}`)}`,'_blank');
+        e.target.reset();
+    }
+</script>
+</body>
+</html>

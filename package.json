@@ -1,0 +1,10 @@
+{
+  "name": "netlify.app",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Static clone of http://bio-gito-kanxoz.netlify.app/",
+  "scripts": {
+    "start": "npx serve .",
+    "preview": "npx serve ."
+  }
+}
